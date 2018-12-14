@@ -19,9 +19,9 @@ describe('Tests for parsing items from .items files', () => {
     ])
   })
 
-  test('Simple item + NL', () => {
+  test('Simple item + NL and NL inbetween', () => {
     // empty array means there are no errors
-    expect(parse('Switch s1\r')).toEqual([])
+    expect(parse('Switch\n s1\r')).toEqual([])
     expect(parse('Switch s1\n')).toEqual([])
     expect(parse('Switch s1\r\n')).toEqual([])
     expect(parse('Switch s1\n\r')).toEqual([])

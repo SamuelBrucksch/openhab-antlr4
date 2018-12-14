@@ -9,7 +9,7 @@ describe('Tests for parsing groups from .items files', () => {
 
   test('Simple group + NL', () => {
     // empty array means there are no errors
-    expect(parse('Group s1\r')).toEqual([])
+    expect(parse('Group\n s1\r')).toEqual([])
     expect(parse('Group s1\n')).toEqual([])
     expect(parse('Group s1\r\n')).toEqual([])
     expect(parse('Group s1\n\r')).toEqual([])
@@ -74,7 +74,7 @@ describe('Error cases', () => {
       {
         column: 5,
         row: 0,
-        text: "mismatched input '<EOF>' expecting WHITESPACE",
+        text: "mismatched input '<EOF>' expecting {NEWLINE, WHITESPACE}",
         type: 'error'
       }
     ])
@@ -85,7 +85,7 @@ describe('Error cases', () => {
       {
         column: 6,
         row: 0,
-        text: "extraneous input '<EOF>' expecting {IDENTIFIER, WHITESPACE}",
+        text: "extraneous input '<EOF>' expecting {IDENTIFIER, NEWLINE, WHITESPACE}",
         type: 'error'
       }
     ])
@@ -157,7 +157,7 @@ describe('Error cases', () => {
         column: 6,
         row: 0,
         text:
-          'extraneous input \'"group1"\' expecting {IDENTIFIER, WHITESPACE}',
+          'extraneous input \'"group1"\' expecting {IDENTIFIER, NEWLINE, WHITESPACE}',
         type: 'error'
       }
     ])
@@ -268,7 +268,7 @@ describe('Error cases', () => {
       {
         column: 19,
         row: 0,
-        text: "mismatched input '<EOF>' expecting WHITESPACE",
+        text: "mismatched input '<EOF>' expecting {NEWLINE, WHITESPACE}",
         type: 'error'
       }
     ])
@@ -294,7 +294,7 @@ describe('Error cases', () => {
       {
         column: 20,
         row: 0,
-        text: "mismatched input '<EOF>' expecting WHITESPACE",
+        text: "mismatched input '<EOF>' expecting {NEWLINE, WHITESPACE}",
         type: 'error'
       }
     ])
@@ -305,7 +305,7 @@ describe('Error cases', () => {
       {
         column: 16,
         row: 0,
-        text: "mismatched input '<EOF>' expecting WHITESPACE",
+        text: "mismatched input '<EOF>' expecting {NEWLINE, WHITESPACE}",
         type: 'error'
       }
     ])
@@ -373,7 +373,7 @@ describe('Error cases', () => {
       {
         column: 31,
         row: 0,
-        text: "mismatched input '<EOF>' expecting WHITESPACE",
+        text: "mismatched input '<EOF>' expecting {NEWLINE, WHITESPACE}",
         type: 'error'
       }
     ])
