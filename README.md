@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/SamuelBrucksch/openhab-antlr4.svg?branch=master)](https://travis-ci.com/SamuelBrucksch/openhab-antlr4)
+
 Steps to run this:
 1. npm install
 2. npm run downloadAntlr
