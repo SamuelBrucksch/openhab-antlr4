@@ -9,3 +9,6 @@ downloadAntlr will download the antlr binary, Java is required so buildGrammar w
 buildGrammar then creates the JS parser and lexer files that are needed to parse documents.
 
 The tests contain some samples to validate text input for .items file from openhab.
+
+TODO:
+ - be more generous with WHITESPACEs: "Group s" is valid, but "Group&nbsp;&nbsp;&nbsp;&nbsp;s" not currently.

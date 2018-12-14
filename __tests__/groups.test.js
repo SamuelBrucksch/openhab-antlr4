@@ -14,9 +14,13 @@ describe('Tests for parsing groups from .items files', () => {
     expect(parse('Group s1\n\r')).toEqual([])
   })
 
-  test('multiple simple groups', () => {
+  test('Simple group + multiple NL', () => {
+    expect(parse('Group s1\n\n\n\n\n\n\n\n\n\n')).toEqual([])
+  })
+
+  test('multiple simple groups with NL inbetween and at end', () => {
     const res = parse(
-      `Switch s1\nString s2\nDimmer s\nGroup abc\nRollershutter r\nContact c\nDateTime d\nColor c\nPlayer p\nLocation l\nCall c\nImage i\nNumber n`
+      `Switch s1\nString s2\nDimmer s\n\n\n\n\n\n\n\n\n\n\nGroup abc\nRollershutter r\nContact c\nDateTime d\n\n\n\n\n\nColor c\nPlayer p\nLocation l\nCall c\nImage i\nNumber n\n\n\n\n\n\n\n\n`
     )
     expect(res).toEqual([])
   })
@@ -31,6 +35,11 @@ describe('Tests for parsing groups from .items files', () => {
     expect(res).toEqual([])
   })
 
+  test('simple group with icon', () => {
+    const res = parse('Group g1 <icon>')
+    expect(res).toEqual([])
+  })
+
   test('simple group with label and parent group', () => {
     const res = parse('Group g1 "G1" (g2)')
     expect(res).toEqual([])
@@ -39,6 +48,18 @@ describe('Tests for parsing groups from .items files', () => {
   test('more complex group', () => {
     const res = parse('Group g1 "My Group" <switch> (testGroup) ["LIGHTING"]')
     expect(res).toEqual([])
+  })
+
+  test('Groups with functions', () => {
+    expect(parse('Group:Switch e "label" <icon> (otherGroup)')).toEqual([])
+    expect(parse('Group:Switch:AND(value1,value2) e "label" <icon> (otherGroup)')).toEqual([])
+    expect(parse('Group:Switch:OR(value1,value2) e "label" <icon> (otherGroup)')).toEqual([])
+    expect(parse('Group:Switch:NAND(value1,value2) e "label" <icon> (otherGroup)')).toEqual([])
+    expect(parse('Group:Switch:NOR(value1,value2) e "label" <icon> (otherGroup)')).toEqual([])
+    expect(parse('Group:Switch:AVG e "label" <icon> (otherGroup)')).toEqual([])
+    expect(parse('Group:Switch:MAX e "label" <icon> (otherGroup)')).toEqual([])
+    expect(parse('Group:Switch:MIN e "label" <icon> (otherGroup)')).toEqual([])
+    expect(parse('Group:Switch:SUM e "label" <icon> (otherGroup)')).toEqual([])
   })
 })
 
