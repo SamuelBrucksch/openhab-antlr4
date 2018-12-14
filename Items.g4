@@ -13,10 +13,6 @@ modelgroupitem :
 	'Group' (':' basemodelitem ( ':' modelgroupfunction ('(' (IDENTIFIER|STRING) (',' (IDENTIFIER|STRING))* ')')?)?)?
 ;
 
-itemmodelold:
-	(modelitem) (NEWLINE | itemmodel)* EOF
-;
-
 itemmodel :
 	(NEWLINE* modelitem (NEWLINE | itemmodel)*) EOF
 ;
