@@ -1,28 +1,43 @@
 grammar Items;
 
 modelitem :
-	(basemodelitem | modelgroupitem) WHITESPACE IDENTIFIER
-	(WHITESPACE STRING)?
-	(WHITESPACE '<' (IDENTIFIER|STRING) '>')?
-	(WHITESPACE '(' IDENTIFIER (',' IDENTIFIER)* ')')? 
-	(WHITESPACE '[' (IDENTIFIER|STRING) (',' (IDENTIFIER|STRING))* ']')?
-	(WHITESPACE '{' modelbinding (',' modelbinding)* '}')?
+	(basemodelitem | modelgroupitem) WHITESPACE+ IDENTIFIER
+	(WHITESPACE+ STRING)?
+	(WHITESPACE+ '<' (IDENTIFIER|STRING) '>')?
+	(WHITESPACE+ '(' IDENTIFIER (',' IDENTIFIER)* ')')? 
+	(WHITESPACE+ '[' (IDENTIFIER|STRING) (',' (IDENTIFIER|STRING))* ']')?
+	(WHITESPACE+ '{' modelbinding (',' modelbinding)* '}')?
 ;
 
 modelgroupitem :
 	'Group' (':' basemodelitem ( ':' modelgroupfunction ('(' (IDENTIFIER|STRING) (',' (IDENTIFIER|STRING))* ')')?)?)?
 ;
 
-itemmodel :
+itemmodelold:
 	(modelitem) (NEWLINE | itemmodel)* EOF
 ;
 
-basemodelitem :
-	'Switch' | 'Rollershutter' | 'String' | 'Dimmer' | 'Contact' | 'DateTime' | 'Color' | 'Player' | 'Location' | 'Call' | 'Image' | ('Number' (':' IDENTIFIER)?)
+itemmodel :
+	(NEWLINE* modelitem (NEWLINE | itemmodel)*) EOF
 ;
 
-modelgroupfunction :
-	'EQUAL' 
+basemodelitem 
+	: 'Switch' 
+	| 'Rollershutter' 
+	| 'String' 
+	| 'Dimmer' 
+	| 'Contact' 
+	| 'DateTime' 
+	| 'Color' 
+	| 'Player' 
+	| 'Location' 
+	| 'Call' 
+	| 'Image' 
+	| ('Number' (':' IDENTIFIER)?)
+;
+
+modelgroupfunction 
+	: 'EQUAL' 
 	| 'AND' '(' (valuetype | IDENTIFIER) ',' (valuetype | IDENTIFIER)  ')' 
 	| 'OR' '(' (valuetype | IDENTIFIER) ',' (valuetype | IDENTIFIER)  ')'
 	| 'NAND' '(' (valuetype | IDENTIFIER) ',' (valuetype | IDENTIFIER)  ')'

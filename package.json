@@ -6,15 +6,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "antlr4": "^4.7.1",
-    "jest": "^23.6.0"
+    "antlr4": "^4.7.1"
   },
   "devDependencies": {
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "jest": "^23.6.0"
   },
   "scripts": {
     "downloadAntlr": "curl -o antlr.jar https://www.antlr.org/download/antlr-4.7.1-complete.jar",
     "buildGrammar": "rimraf ./src/antlr && java -jar antlr.jar -Dlanguage=JavaScript ./Items.g4 -o ./src/antlr/generated-parser",
     "test": "jest --coverage"
+  },
+  "standard": {
+    "env": [ "jest" ]
   }
 }

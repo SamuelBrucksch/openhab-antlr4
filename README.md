@@ -13,9 +13,8 @@ buildGrammar then creates the JS parser and lexer files that are needed to parse
 The tests contain some samples to validate text input for .items file from openhab.
 
 TODO:
- - be more generous with WHITESPACEs: "Group s" is valid, but "Group&nbsp;&nbsp;&nbsp;&nbsp;s" not currently.
  - comments do not seem to work
- - better validation at binding params (e.g. this is currently possible but shouzld not be valid:  {channel="homematic:..."})
+ - better validation at binding params (e.g. this is currently possible but should not be valid:  {channel="homematic:..."})
 
  Samples of currently working items:
 ```String Livingroom_Light_Connection "Livingroom Ceiling Light [MAP(error.map):%s]" <myerror>
@@ -43,4 +42,4 @@ Group:Switch:MIN e "label" <icon> (otherGroup)
 Group:Switch:SUM e "label" <icon> (otherGroup)
 ```
 
-Newlines inbetween also work, only newline as first element is not possible right now.
+Newlines inbetween also work.
