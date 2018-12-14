@@ -1,16 +1,16 @@
 grammar Items;
 
 modelitem :
-	(basemodelitem | modelgroupitem) WHITESPACE ID
+	(basemodelitem | modelgroupitem) WHITESPACE IDENTIFIER
 	(WHITESPACE STRING)?
-	(WHITESPACE '<' (ID|STRING) '>')?
-	(WHITESPACE '(' ID (',' ID)* ')')? 
-	(WHITESPACE '[' (ID|STRING) (',' (ID|STRING))* ']')?
+	(WHITESPACE '<' (IDENTIFIER|STRING) '>')?
+	(WHITESPACE '(' IDENTIFIER (',' IDENTIFIER)* ')')? 
+	(WHITESPACE '[' (IDENTIFIER|STRING) (',' (IDENTIFIER|STRING))* ']')?
 	(WHITESPACE '{' modelbinding (',' modelbinding)* '}')?
 ;
 
 modelgroupitem :
-	'Group' (':' basemodelitem ( ':' modelgroupfunction ('(' (ID|STRING) (',' (ID|STRING))* ')')?)?)?
+	'Group' (':' basemodelitem ( ':' modelgroupfunction ('(' (IDENTIFIER|STRING) (',' (IDENTIFIER|STRING))* ')')?)?)?
 ;
 
 itemmodel :
@@ -18,36 +18,48 @@ itemmodel :
 ;
 
 basemodelitem :
-	'Switch' | 'Rollershutter' | 'String' | 'Dimmer' | 'Contact' | 'DateTime' | 'Color' | 'Player' | 'Location' | 'Call' | 'Image' | ('Number' (':' ID)?)
+	'Switch' | 'Rollershutter' | 'String' | 'Dimmer' | 'Contact' | 'DateTime' | 'Color' | 'Player' | 'Location' | 'Call' | 'Image' | ('Number' (':' IDENTIFIER)?)
 ;
 
 modelgroupfunction :
-	'EQUAL' | 'AND' | 'OR' | 'NAND' | 'NOR' | 'AVG' | 'SUM' | 'MAX' | 'MIN' | 'COUNT' | 'LATEST' | 'EARLIEST'
+	'EQUAL' 
+	| 'AND' '(' (valuetype | IDENTIFIER) ',' (valuetype | IDENTIFIER)  ')' 
+	| 'OR' '(' (valuetype | IDENTIFIER) ',' (valuetype | IDENTIFIER)  ')'
+	| 'NAND' '(' (valuetype | IDENTIFIER) ',' (valuetype | IDENTIFIER)  ')'
+	| 'NOR' '(' (valuetype | IDENTIFIER) ',' (valuetype | IDENTIFIER)  ')'
+	| 'AVG' 
+	| 'SUM' 
+	| 'MAX' 
+	| 'MIN' 
+	| 'COUNT' 
+	| 'LATEST' 
+	| 'EARLIEST'
 ;
 
 modelbinding:
-	ID '=' STRING   
+	IDENTIFIER '=' STRING   
 	('['
         modelproperty? (',' modelproperty)*
     ']')?
 ;
 
 modelproperty:
-    ID '=' valuetype
+    IDENTIFIER '=' valuetype
 ;
 
 valuetype:
     STRING | NUMBER | BOOLEAN
 ;
 
-ID  		: '^'?('a'..'z'|'A'..'Z'|'_'|'0'..'9') ('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')*;
+
+IDENTIFIER: '^'?('a'..'z'|'A'..'Z'|'_'|'0'..'9') ('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')*;
 
 BOOLEAN: 
     'true' | 'false'
 ;
 
 NUMBER:
-    ID ('.' ID )?
+    IDENTIFIER ('.' IDENTIFIER )?
 ;
 
 STRING	: 
