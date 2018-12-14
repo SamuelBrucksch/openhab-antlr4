@@ -1,21 +1,19 @@
 const { parse } = require('../src/index')
 const { complexItems } = require('../__resources__/resources')
 
-
 describe('Tests for parsing items from .items files', () => {
   test('Simple item', () => {
     // empty array means there are no errors
-    expect(parse('Switch s1')).toEqual([])
+    expect(parse('Switch  s1')).toEqual([])
   })
 
   test('Simple item with error', () => {
-    // empty array means there are no errors
     expect(parse('Swi1tch s1')).toEqual([
       {
         column: 0,
         row: 0,
         text:
-          "mismatched input 'Swi1tch' expecting {'Group', 'Switch', 'Rollershutter', 'String', 'Dimmer', 'Contact', 'DateTime', 'Color', 'Player', 'Location', 'Call', 'Image', 'Number'}",
+          "mismatched input 'Swi1tch' expecting {'Group', 'Switch', 'Rollershutter', 'String', 'Dimmer', 'Contact', 'DateTime', 'Color', 'Player', 'Location', 'Call', 'Image', 'Number', NEWLINE}",
         type: 'error'
       }
     ])
@@ -42,7 +40,9 @@ describe('Tests for parsing items from .items files', () => {
   })
 
   test('more complex item', () => {
-    const res = parse('Switch switch "My Switch" <switch> (testGroup) ["LIGHTING"]')
+    const res = parse(
+      'Switch switch "My Switch" <switch> (testGroup) ["LIGHTING"]'
+    )
     expect(res).toEqual([])
   })
 

@@ -63,7 +63,7 @@ describe('Error cases', () => {
         column: 0,
         row: 0,
         text:
-          "mismatched input 'Gro1up' expecting {'Group', 'Switch', 'Rollershutter', 'String', 'Dimmer', 'Contact', 'DateTime', 'Color', 'Player', 'Location', 'Call', 'Image', 'Number'}",
+          "mismatched input 'Gro1up' expecting {'Group', 'Switch', 'Rollershutter', 'String', 'Dimmer', 'Contact', 'DateTime', 'Color', 'Player', 'Location', 'Call', 'Image', 'Number', NEWLINE}",
         type: 'error'
       }
     ])
@@ -71,52 +71,95 @@ describe('Error cases', () => {
 
   test('Group without WHITESPACE + IDENTIFIER', () => {
     expect(parse('Group')).toEqual([
-      { column: 5, row: 0, text: "mismatched input '<EOF>' expecting WHITESPACE", type: 'error' }
+      {
+        column: 5,
+        row: 0,
+        text: "mismatched input '<EOF>' expecting WHITESPACE",
+        type: 'error'
+      }
     ])
   })
 
   test('Group without IDENTIFIER', () => {
-    expect(parse('Group ')).toEqual([{ column: 6, row: 0, text: "missing IDENTIFIER at '<EOF>'", type: 'error' }])
+    expect(parse('Group ')).toEqual([
+      {
+        column: 6,
+        row: 0,
+        text: "extraneous input '<EOF>' expecting {IDENTIFIER, WHITESPACE}",
+        type: 'error'
+      }
+    ])
   })
 
   test('label missing ""', () => {
     // TODO improve grammar to get a better error message here
     expect(parse('Group group1 group1')).toEqual([
-      { column: 13, row: 0, text: "no viable alternative at input ' group1'", type: 'error' }
+      {
+        column: 13,
+        row: 0,
+        text: "no viable alternative at input ' group1'",
+        type: 'error'
+      }
     ])
   })
 
   test('label mixing " and \'', () => {
     // TODO improve grammar to get a better error message here
     expect(parse('Group group1 "group1\'')).toEqual([
-      { column: 13, row: 0, text: "no viable alternative at input ' \"'", type: 'error' }
+      {
+        column: 13,
+        row: 0,
+        text: "no viable alternative at input ' \"'",
+        type: 'error'
+      }
     ])
   })
 
   test('label mixing \' and "', () => {
     // TODO improve grammar to get a better error message here
     expect(parse('Group group1 \'group1"')).toEqual([
-      { column: 13, row: 0, text: "no viable alternative at input ' ''", type: 'error' }
+      {
+        column: 13,
+        row: 0,
+        text: "no viable alternative at input ' ''",
+        type: 'error'
+      }
     ])
   })
 
   test('with missing " behind label', () => {
     // TODO improve grammar to get a better error message here
     expect(parse('Group group1 "group1')).toEqual([
-      { column: 13, row: 0, text: "no viable alternative at input ' \"'", type: 'error' }
+      {
+        column: 13,
+        row: 0,
+        text: "no viable alternative at input ' \"'",
+        type: 'error'
+      }
     ])
   })
 
   test('with missing " before label', () => {
     // TODO improve grammar to get a better error message here
     expect(parse('Group group1 group1"')).toEqual([
-      { column: 13, row: 0, text: "no viable alternative at input ' group1'", type: 'error' }
+      {
+        column: 13,
+        row: 0,
+        text: "no viable alternative at input ' group1'",
+        type: 'error'
+      }
     ])
   })
 
   test('with label but no name', () => {
     expect(parse('Group "group1"')).toEqual([
-      { column: 6, row: 0, text: 'mismatched input \'"group1"\' expecting IDENTIFIER', type: 'error' }
+      {
+        column: 6,
+        row: 0,
+        text:
+          'extraneous input \'"group1"\' expecting {IDENTIFIER, WHITESPACE}',
+        type: 'error'
+      }
     ])
   })
 
@@ -142,7 +185,12 @@ describe('Error cases', () => {
   test('missing "<" at icon', () => {
     // TODO improve grammar to get a better error message here
     expect(parse('Group identifier "label" icon>')).toEqual([
-      { column: 25, row: 0, text: "no viable alternative at input ' icon'", type: 'error' }
+      {
+        column: 25,
+        row: 0,
+        text: "no viable alternative at input ' icon'",
+        type: 'error'
+      }
     ])
   })
 
@@ -162,19 +210,36 @@ describe('Error cases', () => {
   test('missing "(" before nested group', () => {
     // TODO improve grammar to get a better error message here
     expect(parse('Group identifier "label" <icon> otherGroup)')).toEqual([
-      { column: 32, row: 0, text: "no viable alternative at input ' otherGroup'", type: 'error' }
+      {
+        column: 32,
+        row: 0,
+        text: "no viable alternative at input ' otherGroup'",
+        type: 'error'
+      }
     ])
   })
 
   test('missing ")" after nested group', () => {
     expect(parse('Group identifier "label" <icon> (otherGroup')).toEqual([
-      { column: 43, row: 0, text: "mismatched input '<EOF>' expecting {',', ')'}", type: 'error' }
+      {
+        column: 43,
+        row: 0,
+        text: "mismatched input '<EOF>' expecting {',', ')'}",
+        type: 'error'
+      }
     ])
   })
 
   test('nested groups without ","', () => {
-    expect(parse('Group identifier "label" <icon> (otherGroup otherGroup2)')).toEqual([
-      { column: 43, row: 0, text: "mismatched input ' ' expecting {',', ')'}", type: 'error' }
+    expect(
+      parse('Group identifier "label" <icon> (otherGroup otherGroup2)')
+    ).toEqual([
+      {
+        column: 43,
+        row: 0,
+        text: "mismatched input ' ' expecting {',', ')'}",
+        type: 'error'
+      }
     ])
   })
 
@@ -200,7 +265,12 @@ describe('Error cases', () => {
           "mismatched input 'Number' expecting {'EQUAL', 'AND', 'OR', 'NAND', 'NOR', 'AVG', 'SUM', 'MAX', 'MIN', 'COUNT', 'LATEST', 'EARLIEST'}",
         type: 'error'
       },
-      { column: 19, row: 0, text: "mismatched input '<EOF>' expecting WHITESPACE", type: 'error' }
+      {
+        column: 19,
+        row: 0,
+        text: "mismatched input '<EOF>' expecting WHITESPACE",
+        type: 'error'
+      }
     ])
   })
 
@@ -221,19 +291,34 @@ describe('Error cases', () => {
           "mismatched input 'Number' expecting {'EQUAL', 'AND', 'OR', 'NAND', 'NOR', 'AVG', 'SUM', 'MAX', 'MIN', 'COUNT', 'LATEST', 'EARLIEST'}",
         type: 'error'
       },
-      { column: 20, row: 0, text: "mismatched input '<EOF>' expecting WHITESPACE", type: 'error' }
+      {
+        column: 20,
+        row: 0,
+        text: "mismatched input '<EOF>' expecting WHITESPACE",
+        type: 'error'
+      }
     ])
   })
 
   test('with itemtype + function + missing WHITESPACE', () => {
     expect(parse('Group:Switch:AVG')).toEqual([
-      { column: 16, row: 0, text: "mismatched input '<EOF>' expecting WHITESPACE", type: 'error' }
+      {
+        column: 16,
+        row: 0,
+        text: "mismatched input '<EOF>' expecting WHITESPACE",
+        type: 'error'
+      }
     ])
   })
 
   test('with itemtype + function + missing "("', () => {
     expect(parse('Group:Switch:AND')).toEqual([
-      { column: 16, row: 0, text: "mismatched input '<EOF>' expecting '('", type: 'error' }
+      {
+        column: 16,
+        row: 0,
+        text: "mismatched input '<EOF>' expecting '('",
+        type: 'error'
+      }
     ])
   })
 
@@ -243,7 +328,8 @@ describe('Error cases', () => {
       {
         column: 17,
         row: 0,
-        text: "mismatched input ')' expecting {IDENTIFIER, BOOLEAN, NUMBER, STRING}",
+        text:
+          "mismatched input ')' expecting {IDENTIFIER, BOOLEAN, NUMBER, STRING}",
         type: 'error'
       }
     ])
@@ -252,7 +338,12 @@ describe('Error cases', () => {
   test('with itemtype + function + only one value in ()', () => {
     // TODO this was not in the original grammar, check if types are correct
     expect(parse('Group:Switch:AND(value1)')).toEqual([
-      { column: 23, row: 0, text: "mismatched input ')' expecting ','", type: 'error' }
+      {
+        column: 23,
+        row: 0,
+        text: "mismatched input ')' expecting ','",
+        type: 'error'
+      }
     ])
   })
 
@@ -260,7 +351,12 @@ describe('Error cases', () => {
     // TODO this was not in the original grammar, check if types are correct
     // TODO adapt grammar to show better error?
     expect(parse('Group:Switch:AND(value1 value2)')).toEqual([
-      { column: 23, row: 0, text: "mismatched input ' ' expecting ','", type: 'error' },
+      {
+        column: 23,
+        row: 0,
+        text: "mismatched input ' ' expecting ','",
+        type: 'error'
+      },
       {
         column: 30,
         row: 0,
@@ -274,7 +370,12 @@ describe('Error cases', () => {
   test('with itemtype + function + only one value in ()', () => {
     // TODO this was not in the original grammar, check if types are correct
     expect(parse('Group:Switch:AND(value1,value2)')).toEqual([
-      { column: 31, row: 0, text: "mismatched input '<EOF>' expecting WHITESPACE", type: 'error' }
+      {
+        column: 31,
+        row: 0,
+        text: "mismatched input '<EOF>' expecting WHITESPACE",
+        type: 'error'
+      }
     ])
   })
 })
