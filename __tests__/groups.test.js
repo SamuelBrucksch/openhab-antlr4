@@ -1,4 +1,5 @@
 const { parse } = require('../src/index')
+const { groupsWithFunctions } = require('../__resources__/resources')
 
 describe('Tests for parsing groups from .items files', () => {
   test('Simple group', () => {
@@ -51,15 +52,7 @@ describe('Tests for parsing groups from .items files', () => {
   })
 
   test('Groups with functions', () => {
-    expect(parse('Group:Switch e "label" <icon> (otherGroup)')).toEqual([])
-    expect(parse('Group:Switch:AND(value1,value2) e "label" <icon> (otherGroup)')).toEqual([])
-    expect(parse('Group:Switch:OR(value1,value2) e "label" <icon> (otherGroup)')).toEqual([])
-    expect(parse('Group:Switch:NAND(value1,value2) e "label" <icon> (otherGroup)')).toEqual([])
-    expect(parse('Group:Switch:NOR(value1,value2) e "label" <icon> (otherGroup)')).toEqual([])
-    expect(parse('Group:Switch:AVG e "label" <icon> (otherGroup)')).toEqual([])
-    expect(parse('Group:Switch:MAX e "label" <icon> (otherGroup)')).toEqual([])
-    expect(parse('Group:Switch:MIN e "label" <icon> (otherGroup)')).toEqual([])
-    expect(parse('Group:Switch:SUM e "label" <icon> (otherGroup)')).toEqual([])
+    expect(parse(groupsWithFunctions)).toEqual([])
   })
 })
 
