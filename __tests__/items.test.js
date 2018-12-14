@@ -1,4 +1,6 @@
 const { parse } = require('../src/index')
+const { complexItems } = require('../__resources__/resources')
+
 
 describe('Tests for parsing items from .items files', () => {
   test('Simple item', () => {
@@ -42,5 +44,9 @@ describe('Tests for parsing items from .items files', () => {
   test('more complex item', () => {
     const res = parse('Switch switch "My Switch" <switch> (testGroup) ["LIGHTING"]')
     expect(res).toEqual([])
+  })
+
+  test('various items from openhab docs', () => {
+    expect(parse(complexItems)).toEqual([])
   })
 })
