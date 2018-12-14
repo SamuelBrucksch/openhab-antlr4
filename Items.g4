@@ -1,5 +1,9 @@
 grammar Items;
 
+itemmodel :
+	(NEWLINE* (modelitem) (NEWLINE | modelitem)*) EOF
+;
+
 modelitem :
 	(basemodelitem | modelgroupitem) WHITESPACE+ IDENTIFIER
 	(WHITESPACE+ STRING)?
@@ -11,10 +15,6 @@ modelitem :
 
 modelgroupitem :
 	'Group' (':' basemodelitem ( ':' modelgroupfunction ('(' (IDENTIFIER|STRING) (',' (IDENTIFIER|STRING))* ')')?)?)?
-;
-
-itemmodel :
-	(NEWLINE* modelitem (NEWLINE | itemmodel)*) EOF
 ;
 
 basemodelitem 

@@ -4,7 +4,7 @@ const { complexItems } = require('../__resources__/resources')
 describe('Tests for parsing items from .items files', () => {
   test('Simple item', () => {
     // empty array means there are no errors
-    expect(parse('Switch s1')).toEqual([])
+    expect(parse('Switch  s1')).toEqual([])
   })
 
   test('Simple item with error', () => {
