@@ -9,7 +9,8 @@ Group:Switch:NOR(value1,value2) e "label" <icon> (otherGroup)
 Group:Switch:AVG e "label" <icon> (otherGroup)
 
 
-
+Group:Switch:AND(value1,value2)
+name
 
 
 

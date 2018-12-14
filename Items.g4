@@ -5,12 +5,12 @@ itemmodel :
 ;
 
 modelitem :
-	(basemodelitem | modelgroupitem) WHITESPACE+ IDENTIFIER
-	(WHITESPACE+ STRING)?
-	(WHITESPACE+ '<' (IDENTIFIER|STRING) '>')?
-	(WHITESPACE+ '(' IDENTIFIER (',' IDENTIFIER)* ')')? 
-	(WHITESPACE+ '[' (IDENTIFIER|STRING) (',' (IDENTIFIER|STRING))* ']')?
-	(WHITESPACE+ '{' modelbinding (',' modelbinding)* '}')?
+	(basemodelitem | modelgroupitem) (WHITESPACE |  NEWLINE)+ IDENTIFIER
+	((WHITESPACE |  NEWLINE)+ STRING)?
+	((WHITESPACE |  NEWLINE)+ '<' (IDENTIFIER|STRING) '>')?
+	((WHITESPACE |  NEWLINE)+ '(' IDENTIFIER (',' IDENTIFIER)* ')')? 
+	((WHITESPACE |  NEWLINE)+ '[' (IDENTIFIER|STRING) (',' (IDENTIFIER|STRING))* ']')?
+	((WHITESPACE |  NEWLINE)+ '{' modelbinding (',' modelbinding)* '}')?
 ;
 
 modelgroupitem :
