@@ -13,6 +13,10 @@ Group:Switch:AND(value1,value2)
 name
 
 
+/*
+this is a multi line comment
+*/
+
 
 Group:Switch:MAX e "label" <icon> (otherGroup)
 
@@ -31,12 +35,12 @@ Switch Livingroom_Light "Livingroom Ceiling Light" <myswitch>
 
 Contact Livingroom_Window     "Ventana del salón [MAP(window_esp.map):%s]"
 Switch Livingroom_Light "Livingroom Ceiling Light" <switch>
-Number Livingroom_Temperature   "Temperature [%.1f °C]"
+Number Livingroom_Temperature   "Temperature [%.1f °C]" // Comment
 
 String     Livingroom_TV_Channel "Now Playing [%s]"
 DateTime     Livingroom_TV_LastUpdate     "Last Update [%1$ta %1$tR]"
 Number Livingroom_Clock_Battery "Battery Charge [%d %%]"
-Location My_Location "My Location [%2$s°N %3$s°E %1$sm]"
+Location My_Location "My Location [%2$s°N %3$s°E %1$sm]" // bla
 
 Number Livingroom_Temperature "Temperature [%.1f °C]"
 String Bedroom_Sonos_CurrentTitle "Title [%s]" (gBedRoom) {channel="sonos:..."}

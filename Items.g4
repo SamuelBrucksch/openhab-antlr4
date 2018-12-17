@@ -5,12 +5,13 @@ itemmodel :
 ;
 
 modelitem :
-	(basemodelitem | modelgroupitem) (WHITESPACE |  NEWLINE)+ IDENTIFIER
-	((WHITESPACE |  NEWLINE)+ STRING)?
-	((WHITESPACE |  NEWLINE)+ '<' (IDENTIFIER|STRING) '>')?
-	((WHITESPACE |  NEWLINE)+ '(' IDENTIFIER (',' IDENTIFIER)* ')')? 
-	((WHITESPACE |  NEWLINE)+ '[' (IDENTIFIER|STRING) (',' (IDENTIFIER|STRING))* ']')?
-	((WHITESPACE |  NEWLINE)+ '{' modelbinding (',' modelbinding)* '}')?
+	(basemodelitem | modelgroupitem) 
+	((WHITESPACE | NEWLINE)+ IDENTIFIER)
+	((WHITESPACE | NEWLINE)+ STRING)?
+	((WHITESPACE | NEWLINE)+ '<' (IDENTIFIER|STRING) '>')?
+	((WHITESPACE | NEWLINE)+ '(' IDENTIFIER (',' IDENTIFIER)* ')')? 
+	((WHITESPACE | NEWLINE)+ '[' (IDENTIFIER|STRING) (',' (IDENTIFIER|STRING))* ']')?
+	((WHITESPACE | NEWLINE)+ '{' modelbinding (',' modelbinding)* '}')?
 ;
 
 modelgroupitem :
@@ -62,6 +63,9 @@ valuetype:
     STRING | NUMBER | BOOLEAN
 ;
 
+ML_COMMENT	: '/*' .*? '*/' -> channel(HIDDEN);
+
+SL_COMMENT 	: WHITESPACE? '//' .*? (NEWLINE | EOF) -> channel(HIDDEN);
 
 IDENTIFIER: '^'?('a'..'z'|'A'..'Z'|'_'|'0'..'9') ('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')*;
 
@@ -77,12 +81,14 @@ STRING	:
 			'"' ( '\\' ('b'|'t'|'n'|'f'|'r'|'u'|'"'|'\''|'\\') | ~('\\'|'"') )* '"' |
 			'\'' ( '\\' ('b'|'t'|'n'|'f'|'r'|'u'|'"'|'\''|'\\') | ~('\\'|'\'') )* '\''
 		; 
-ML_COMMENT	: '/*' .*? '*/' -> channel(HIDDEN);
 
-SL_COMMENT 	: '//' ~('\n'|'\r')* ('\r'? '\n')? -> channel(HIDDEN);
+NEWLINE
+  : CR? LF
+  ;
 
-NEWLINE : ('\r'|'\n');
+CR: '\r';
+LF: '\n';
 
-WHITESPACE: (' '|'\t');
+WHITESPACE: (' '|'\t'|'\f');
 
 ANY_OTHER: .;

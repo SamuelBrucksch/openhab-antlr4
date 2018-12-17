@@ -9,10 +9,9 @@ describe('Tests for parsing groups from .items files', () => {
 
   test('Simple group + NL', () => {
     // empty array means there are no errors
-    expect(parse('Group\n s1\r')).toEqual([])
+    expect(parse('Group\n\ns1\r\n')).toEqual([])
     expect(parse('Group s1\n')).toEqual([])
     expect(parse('Group s1\r\n')).toEqual([])
-    expect(parse('Group s1\n\r')).toEqual([])
   })
 
   test('Simple group + multiple NL', () => {
