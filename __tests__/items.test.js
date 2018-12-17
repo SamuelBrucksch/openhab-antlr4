@@ -7,24 +7,11 @@ describe('Tests for parsing items from .items files', () => {
     expect(parse('Switch  s1')).toEqual([])
   })
 
-  test('Simple item with error', () => {
-    expect(parse('Swi1tch s1')).toEqual([
-      {
-        column: 0,
-        row: 0,
-        text:
-          "mismatched input 'Swi1tch' expecting {'Group', 'Switch', 'Rollershutter', 'String', 'Dimmer', 'Contact', 'DateTime', 'Color', 'Player', 'Location', 'Call', 'Image', 'Number', NEWLINE}",
-        type: 'error'
-      }
-    ])
-  })
-
   test('Simple item + NL and NL inbetween', () => {
     // empty array means there are no errors
-    expect(parse('Switch\n s1\r')).toEqual([])
+    expect(parse('Switch\ns1\r\n')).toEqual([])
     expect(parse('Switch s1\n')).toEqual([])
     expect(parse('Switch s1\r\n')).toEqual([])
-    expect(parse('Switch s1\n\r')).toEqual([])
   })
 
   test('multiple Simple item', () => {
@@ -39,6 +26,11 @@ describe('Tests for parsing items from .items files', () => {
     expect(res).toEqual([])
   })
 
+  test('Comments', () => {
+    const res = parse('//Comment at beginning of line\nSwitch switch //"My Switch"\n//another comment\nSwitch s2 // comment at end of line\n//comment at EOF')
+    expect(res).toEqual([])
+  })
+
   test('more complex item', () => {
     const res = parse(
       'Switch switch "My Switch" <switch> (testGroup) ["LIGHTING"]'
@@ -48,5 +40,19 @@ describe('Tests for parsing items from .items files', () => {
 
   test('various items from openhab docs', () => {
     expect(parse(complexItems)).toEqual([])
+  })
+})
+
+describe('Error cases', () => {
+  test('Simple item with error', () => {
+    expect(parse('Swi1tch s1')).toEqual([
+      {
+        column: 0,
+        row: 0,
+        text:
+          "mismatched input 'Swi1tch' expecting {'Group', 'Switch', 'Rollershutter', 'String', 'Dimmer', 'Contact', 'DateTime', 'Color', 'Player', 'Location', 'Call', 'Image', 'Number', NEWLINE}",
+        type: 'error'
+      }
+    ])
   })
 })

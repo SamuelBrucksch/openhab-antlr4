@@ -13,7 +13,6 @@ buildGrammar then creates the JS parser and lexer files that are needed to parse
 The tests contain some samples to validate text input for .items file from openhab.
 
 TODO:
- - comments do not seem to work
  - better validation at binding params (e.g. this is currently possible but should not be valid:  {channel="homematic:..."})
 
  Samples of currently working items:
@@ -42,4 +41,4 @@ Group:Switch:MIN e "label" <icon> (otherGroup)
 Group:Switch:SUM e "label" <icon> (otherGroup)
 ```
 
-Newlines inbetween also work.
+Newlines inbetween also work. Comments now also work.
